@@ -26,9 +26,11 @@ Software:
 Raspian image: 
 Maybe use the following in final production:
 Raspbian minimal image (http://www.linuxsystems.it/2012/06/raspbian-wheezy-armhf-raspberry-pi-minimal-image)
-mpd (music player daemon)
+mpd (music player daemon) http://www.musicpd.org/
 mpc
-mpd-python
+mpd-python 
+http://jatreuman.indefero.net/p/python-mpd/ 
+http://mpd.wikia.com/wiki/ClientLib:python-mpd2
 pyudev (for USB access)
 a simple python script
 
