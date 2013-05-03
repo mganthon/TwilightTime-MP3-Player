@@ -36,11 +36,11 @@ Requirement / Feature List:
 
 always on: When you power on the raspberry, it will boot up and start the python script and wait for a buttom press
 
-one button usage: The button starts the playlist, plays for 30 minutes and then stops.
+one button usage: The button starts the playlist, plays for 30 minutes and then stops. Holding down the button for (3) seconds causes unit to pause or stop playing.
 
-Random play: randomly plays mp3s when button is played
+Random play: randomly plays mp3s from folder when button is played
 
-Fade out: at the end of the 30 minutes, the audio stream will fade out. (so it doesn't wake up when it stops.)
+Fade out: at the end of the 30 minutes, the audio stream will fade out. (so you don't wake up when it stops.)
 
 FTP upload: As long as the player isn't playing FTP can be used to upload songs to a music library folder
 
