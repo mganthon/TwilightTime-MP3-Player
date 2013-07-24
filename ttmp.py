@@ -44,18 +44,19 @@ def mpdConnect(client, con_id):
         return True
 
 # need to rewrite to point to ftp root or copy from ftp root to mp3 location
-def loadMusic(client, con_id, device):
-        os.system("mount "+device+" /music/usb")
-        os.system("/etc/init.d/mpd stop")
-        os.system("rm /music/mp3/*")
-        os.system("cp /music/usb/* /music/mp3/")
-        os.system("umount /music/usb")
-        os.system("rm /music/mpd/tag_cache")
-        os.system("/etc/init.d/mpd start")
-        os.system("mpc clear")
-        os.system("mpc ls | mpc add")
-        os.system("/etc/init.d/mpd restart")
+def loadMusic():
 
+         os.system("mpc update")			
+         os.system("mpc clear")
+         os.system("mpc ls | mpc add")
+
+def fadeout():
+		#decrease volume by 2 every second, then stop.
+		volume = client.volume()  # is this right?
+		while volume > 10: # verify this value is low enough
+				volume -= 2
+				client.setvol(volume)
+		client.stop()
 
 
 def main():
@@ -63,38 +64,37 @@ def main():
         client = MPDClient()
         mpdConnect(client, CON_ID)
 
-        status = client.status()
-        print status
-
-        timebuttonisstillpressed = 0
+        print client.status()
+        
+        timeButtonIsPressed = 0
+        playCounter = 0
 
         while True:
                 
-                client.disconnect()
-                loadMusic(client, CON_ID, device)
-                mpdConnect(client, CON_ID)
                 print client.status()
                 
 
-## rewrite this section to do what we want
+				## respond to the button press
                 if GPIO.input(BUTTON) == True:
-                        if timebuttonisstillpressed == 0:
-                                # button has been pressed, pause or unpause now
+                        if timeButtonIsPressed == 1:
+                                # button has been pressed 1 sec, stop or play now
                                 if client.status()["state"] == "stop":
+                                		loadMusic()
                                         client.play()
                                 else:
-                                        client.pause()
-                                updateLED(client)
-                        elif timebuttonisstillpressed > 4:
-                                # go back one track if button is pressed > 4 secs
-                                client.previous()
-                                flashLED(0.1, 5)
-                                timebuttonisstillpressed = 0
-                        timebuttonisstillpressed = timebuttonisstillpressed + 0.1
+                                        client.stop()
+
+                        timeButtonIsPressed = timeButtonIsPressed + 0.1
+                        
                 else:
-                        timebuttonisstillpressed = 0
+                        timeButtonIsPressed = 0
+                        if client.status()["state"] == "play":
+                        		playCounter += 0.1
 
                 sleep(0.1)
+            	if playCounter > 1800
+            			fadeOut()
+                
 
 # Script starts here
 if __name__ == "__main__":
